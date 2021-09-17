@@ -22,40 +22,26 @@ async function getAccount() {
 
 
 requestPermissionsButton.onclick = async () => {
-    try {
+      try {
         const permissionsArray = await ethereum.request({
-            method: 'wallet_requestPermissions',
-            params: [{
-                eth_accounts: {}
-            }],
+          method: 'wallet_requestPermissions',
+          params: [{ eth_accounts: {} }],
         })
         permissionsResult.innerHTML = getPermissionsDisplayString(permissionsArray)
-    } catch (err) {
+      } catch (err) {
         console.error(err)
         permissionsResult.innerHTML = `Error: ${err.message}`
+      }
     }
-}
 
-getPermissionsButton.onclick = async () => {
-    try {
+    getPermissionsButton.onclick = async () => {
+      try {
         const permissionsArray = await ethereum.request({
-            method: 'wallet_getPermissions',
+          method: 'wallet_getPermissions',
         })
         permissionsResult.innerHTML = getPermissionsDisplayString(permissionsArray)
-    } catch (err) {
+      } catch (err) {
         console.error(err)
         permissionsResult.innerHTML = `Error: ${err.message}`
+      }
     }
-}
-
-getAccountsButton.onclick = async () => {
-    try {
-        const _accounts = await ethereum.request({
-            method: 'eth_accounts',
-        })
-        getAccountsResults.innerHTML = _accounts[0] || 'Not able to get accounts'
-    } catch (err) {
-        console.error(err)
-        getAccountsResults.innerHTML = `Error: ${err.message}`
-    }
-}
