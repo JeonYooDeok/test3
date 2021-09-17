@@ -22,26 +22,36 @@ async function getAccount() {
 
 
 requestPermissionsButton.onclick = async () => {
-      try {
+    try {
         const permissionsArray = await ethereum.request({
-          method: 'wallet_requestPermissions',
-          params: [{ eth_accounts: {} }],
+            method: 'wallet_requestPermissions',
+            params: [{
+                eth_accounts: {}
+            }],
         })
         permissionsResult.innerHTML = getPermissionsDisplayString(permissionsArray)
-      } catch (err) {
+    } catch (err) {
         console.error(err)
         permissionsResult.innerHTML = `Error: ${err.message}`
-      }
     }
+}
 
-    getPermissionsButton.onclick = async () => {
-      try {
+getPermissionsButton.onclick = async () => {
+    try {
         const permissionsArray = await ethereum.request({
-          method: 'wallet_getPermissions',
+            method: 'wallet_getPermissions',
         })
         permissionsResult.innerHTML = getPermissionsDisplayString(permissionsArray)
-      } catch (err) {
+    } catch (err) {
         console.error(err)
         permissionsResult.innerHTML = `Error: ${err.message}`
-      }
     }
+}
+
+function getPermissionsDisplayString(permissionsArray) {
+    if (permissionsArray.length === 0) {
+        return 'No permissions found.'
+    }
+    const permissionNames = permissionsArray.map((perm) => perm.parentCapability)
+    return permissionNames.reduce((acc, name) => `${acc}${name}, `, '').replace(/, $/u, '')
+}
